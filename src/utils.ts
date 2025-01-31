@@ -54,7 +54,7 @@ export async function cat_fact(): Promise<string> {
                 : '';
         fact = factSplit.join(' ');
     }
-    return (await axios.get('https://catfact.ninja/fact')).data.fact;
+    return fact;
 }
 
 export async function getBuffer(url: string) {
