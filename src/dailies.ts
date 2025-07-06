@@ -21,35 +21,36 @@ export async function daily(db: NodePgDatabase, client: Client) {
     for (const guildInfo of res) {
         let guild = client.guilds.cache.get(guildInfo.id);
         if (!guild)
-            guild = await client.guilds.fetch(guildInfo.id).catch(() => {
-                return undefined;
-            });
-        if (!guild) continue;
+            guild = await client.guilds.fetch(guildInfo.id).catch(() => null);
+        if (!guild)
+            continue;
         if (guildInfo.fact_channel && guildInfo.send_facts) {
-            let fact_channel: TextChannel | undefined =
-                guild.channels.cache.get(guildInfo.fact_channel) as
-                    | TextChannel
-                    | undefined;
+            let fact_channel =
+                guild.channels.cache.get(guildInfo.fact_channel)
             if (!fact_channel)
                 fact_channel =
-                    ((await guild.channels.fetch(
+                    await guild.channels.fetch(
                         guildInfo.fact_channel
-                    )) as TextChannel | null) || undefined;
-            if (!fact_channel) break;
-            await fact_channel.send(`Today's cat fact:\n${fact}`);
+                    ).catch(() => null)
+            if (!fact_channel)
+                continue;
+            if(!fact_channel.isTextBased)
+                continue;
+            await (fact_channel as TextChannel).send(`Today's cat fact:\n${fact}`);
         }
         if (guildInfo.photo_channel && guildInfo.send_photos) {
-            let photo_channel: TextChannel | undefined =
-                guild.channels.cache.get(guildInfo.photo_channel) as
-                    | TextChannel
-                    | undefined;
+            let photo_channel =
+                guild.channels.cache.get(guildInfo.photo_channel)
             if (!photo_channel)
                 photo_channel =
-                    ((await guild.channels.fetch(
+                    await guild.channels.fetch(
                         guildInfo.photo_channel
-                    )) as TextChannel | null) || undefined;
-            if (!photo_channel) break;
-            await photo_channel.send({ files: [attachment] });
+                    ).catch(() => null)
+            if (!photo_channel)
+                continue;
+            if (!photo_channel.isTextBased)
+                continue;
+            await (photo_channel as TextChannel).send({ files: [attachment] });
         }
     }
 }
