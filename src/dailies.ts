@@ -36,7 +36,7 @@ export async function daily(db: NodePgDatabase, client: Client) {
                 continue;
             if(!fact_channel.isTextBased)
                 continue;
-            await (fact_channel as TextChannel).send(`Today's cat fact:\n${fact}`);
+            await (fact_channel as TextChannel).send(`Today's cat fact:\n${fact}`).catch();
         }
         if (guildInfo.photo_channel && guildInfo.send_photos) {
             let photo_channel =
@@ -50,7 +50,7 @@ export async function daily(db: NodePgDatabase, client: Client) {
                 continue;
             if (!photo_channel.isTextBased)
                 continue;
-            await (photo_channel as TextChannel).send({ files: [attachment] });
+            await (photo_channel as TextChannel).send({ files: [attachment] }).catch();
         }
     }
 }
