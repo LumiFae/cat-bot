@@ -52,6 +52,8 @@ client.on("ready", async () => {
             },
         ],
     });
+
+    await daily(db, client)
 });
 
 client.on("interactionCreate", async (interaction) => {
@@ -66,7 +68,7 @@ client.on("guildDelete", async (guild) => {
 });
 
 new CronJob(
-    "5 10 * * *",
+    "0 0 * * *",
     async function () {
         await daily(db, client);
     },

@@ -19,6 +19,7 @@ export async function daily(db: NodePgDatabase, client: Client) {
         console.error('Failed to update avatar:', error);
     }
     for (const guildInfo of res) {
+        console.log(guildInfo)
         let guild = client.guilds.cache.get(guildInfo.id);
         if (!guild)
             guild = await client.guilds.fetch(guildInfo.id).catch(() => null);
