@@ -29,7 +29,7 @@ export async function daily(db: NodePgDatabase, client: Client) {
         if (!guild)
             continue;
 
-        console.log(JSON.stringify(guild, null, 4));
+        console.log(guild.toJSON());
 
         if (guildInfo.fact_channel && guildInfo.send_facts) {
             console.log(`Guild ${guild.name} has facts enabled... trying to send message`)
