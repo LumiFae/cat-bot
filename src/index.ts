@@ -52,8 +52,6 @@ client.on("ready", async () => {
             },
         ],
     });
-
-    await daily(db, client)
 });
 
 client.on("interactionCreate", async (interaction) => {
