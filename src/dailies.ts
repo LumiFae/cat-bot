@@ -24,7 +24,11 @@ export async function daily(db: NodePgDatabase, client: Client) {
             guild = await client.guilds.fetch(guildInfo.id).catch(() => null);
         if (!guild)
             continue;
+
+        console.log(`Found guild ${guild.name} from database... trying to send messages now...`)
+
         if (guildInfo.fact_channel && guildInfo.send_facts) {
+            console.log(`Guild ${guild.name} has facts enabled... trying to send message`)
             let fact_channel =
                 guild.channels.cache.get(guildInfo.fact_channel)
             if (!fact_channel)
@@ -36,9 +40,11 @@ export async function daily(db: NodePgDatabase, client: Client) {
                 continue;
             if(!fact_channel.isTextBased)
                 continue;
+            console.log(`Trying to send facts to ${fact_channel.name} from guild ${guild.name}`)
             await (fact_channel as TextChannel).send(`Today's cat fact:\n${fact}`).catch();
         }
         if (guildInfo.photo_channel && guildInfo.send_photos) {
+            console.log(`Guild ${guild.name} has photos enabled... trying to send message`)
             let photo_channel =
                 guild.channels.cache.get(guildInfo.photo_channel)
             if (!photo_channel)
@@ -50,6 +56,7 @@ export async function daily(db: NodePgDatabase, client: Client) {
                 continue;
             if (!photo_channel.isTextBased)
                 continue;
+            console.log(`Trying to send photos to ${photo_channel.name} from ${guild.name}`)
             await (photo_channel as TextChannel).send({ files: [attachment] }).catch();
         }
     }

@@ -66,7 +66,7 @@ client.on("guildDelete", async (guild) => {
 });
 
 new CronJob(
-    "0 0 * * *",
+    "0 10 * * *",
     async function () {
         await daily(db, client);
     },
