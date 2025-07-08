@@ -39,7 +39,7 @@ client.on("ready", async () => {
     }
 
     console.log(
-        `Bot is in servers with id: ${client.guilds.cache
+        `Bot ${client.user.username} is in servers with id: ${client.guilds.cache
             .map((guild) => guild.id)
             .join(", ")}, it has now started`,
     );
@@ -80,7 +80,7 @@ new CronJob(
 app.get("/", async (_, res: Response) => {
     res.send(
         `
-        <link rel="icon" href="${(await client.users.fetch(process.env.CLIENT_ID)).displayAvatarURL()}" />
+        <link rel="icon" href="${client.user.displayAvatarURL()}" />
 <p>Hello World!</p>
 
 <p>There is nothing to look at here, please check out my <a href="https://github.com/JayXTQ/cat-bot">source code</a>!</p>

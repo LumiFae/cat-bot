@@ -19,14 +19,17 @@ export async function daily(db: NodePgDatabase, client: Client) {
         console.error('Failed to update avatar:', error);
     }
     for (const guildInfo of res) {
-        console.log(guildInfo)
         let guild = client.guilds.cache.get(guildInfo.id);
-        if (!guild)
+        if (!guild) {
+            console.log(`Fetching guild ${guildInfo.id}`)
             guild = await client.guilds.fetch(guildInfo.id).catch(() => null);
+        } else {
+            console.log(`Guild ${guild.name} ${guild.id} has been found from the cache`)
+        }
         if (!guild)
             continue;
 
-        console.log(`Found guild ${guild.name} from database... trying to send messages now...`)
+        console.log(JSON.stringify(guild, null, 4));
 
         if (guildInfo.fact_channel && guildInfo.send_facts) {
             console.log(`Guild ${guild.name} has facts enabled... trying to send message`)
