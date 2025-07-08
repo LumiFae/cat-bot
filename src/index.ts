@@ -15,7 +15,7 @@ import https from "https";
 const app = express();
 
 const client = new Client({
-    intents: [GatewayIntentBits.GuildMessages],
+    intents: [GatewayIntentBits.GuildMessages, GatewayIntentBits.Guilds],
 });
 
 export let db: NodePgDatabase;
